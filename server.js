@@ -67,10 +67,10 @@ app.prepare().then(() => {
     handle(req, res, parsedUrl);
   }).listen(ports.http, (err) => {
     if (err) throw err;
-    console.log(`> HTTP: Ready on http://localhost:${ports.http}`);
+    console.log(`listening on Next port ${ports.http}`);
   });
   
    socketserver.listen(ports.socket, function(){
-    console.log('listening on port 3001');
+    console.log('listening on socket port 3001');
     })
 });

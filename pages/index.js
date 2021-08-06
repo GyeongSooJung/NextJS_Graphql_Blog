@@ -32,7 +32,7 @@ export default function Home({launches}) {
   const [chatState, setChatState] = useState({message : '', name : ''})
   const [currentSocket, setCurrentSocket] = useState();
   
-  console.log("chat : "+chat);
+  console.log("chat : "+JSON.stringify(chat));
   console.log("chatState : "+ JSON.stringify(chatState));
   
   useEffect(() => {
