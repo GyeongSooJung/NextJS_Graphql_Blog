@@ -39,7 +39,7 @@ socketapp.use(cors());
 
 const io = require('socket.io')(socketserver,{
     cors : {
-        origin: "http://3.6.177.242:3000",
+        origin: process.env.NEXT_PUBLIC_IP+":"+process.env.NEXT_PUBLIC_React_Port, //해보니까 localhost는 안됨
         methods: ["GET", "POST"],
         allowedHeaders: ["*"],
         credentials: true,
@@ -56,8 +56,8 @@ io.on('connection', socket=>{
 })
 
 const ports = {
-  http: 3000,
-  socket: 3001
+  http: process.env.NEXT_PUBLIC_React_Port,
+  socket: process.env.NEXT_PUBLIC_Socket_Port
 };
 
 
