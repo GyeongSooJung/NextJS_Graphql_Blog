@@ -5,9 +5,9 @@ const connect = () => {
         mongoose.set('debug', true);
     }
     // mongoose.connect('mongodb://'+process.env.MONGO_ID+':'+process.env.MONGO_PWD+'@'+process.env.MONGO_IP+':'+process.env.MONGO_PORT+'/admin', {
-    mongoose.connect('mongodb://test:test1234@3.109.135.247:9003/admin', {
+    mongoose.connect('mongodb://test:test1234@3.6.177.242:27017/admin', {
         useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false,
-        dbName: 'ERP'
+        dbName: 'Blog'
     }, {
     }, (error) => {
         if (error) {

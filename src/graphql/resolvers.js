@@ -24,26 +24,50 @@ const resolvers = {
     
     async modelQuery(_, args) {
       
-      const Query = args.Query
-      const Collection = args.Collection
-      const Data = args.Data
+      const Query = args.Query;
+      const Collection = args.Collection;
+      const Data = args.Data;
       let Option;
       if( args.Option === undefined) {
-        Option = {}
+        Option = {};
+      }
+      else if(args.Option === "needResult") {
+        const firstFind = await modelQuery(QUERY.Find, COLLECTION_NAME.Company, Data.where, {});
+        let firstFindId = [];
+        
+        for(let i = 0; i < firstFind.length; i ++) {
+          firstFindId.push({"_id" : firstFind[i]._id});
+        }
+        
+        const postJob = async function updateResult() { return await modelQuery(QUERY.Find, COLLECTION_NAME.Company, {$or: firstFindId}, {}) };
+        
+        Option = { "postJob": postJob };
       }
       else {
-         Option = args.Option
+         Option = args.Option;
       }
       
+      let models;
       
       try {
-        console.log("@@@ : " + Option)
-        const models = await modelQuery(Query,Collection,Data,Option)
-        console.log(models);
-        return models;
+        models = await modelQuery(Query,Collection,Data,Option);
+        
+        if (Query == "create" || Query == "findone" || Query == "findoneandupdate") {
+          models.result = true;
+          return [models]; // GraphQL에서 결과값을 배열로 지정해놔서 맞춤 출력
+        }
+        else if (Query == "find" && models.length == 0) {
+          models = {result : false};
+          return [models];
+        }
+        else {
+          models.result = true;
+          return models;
+        }
       } catch(err) {
+        models = {result : false};
         console.error(err);
-        throw err;
+        return [models];
       }
     }
   },

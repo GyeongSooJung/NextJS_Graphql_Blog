@@ -29,10 +29,12 @@ exports.modelQuery = async (query,collection,doc,option) => {
     }
     
     var resResult = (result) => { //함수가 끝나고 실행되는 콜백함수
-      if (postJob != null) {
-         postJob();
-      }
-      return result;
+        if (postJob != null) {
+            return postJob();
+        }
+        else {
+            return result;
+        }
     };
     
     
@@ -128,7 +130,7 @@ exports.modelQuery = async (query,collection,doc,option) => {
         }
         
         else {
-            one = await Collection.InsertMany(doc).then(resResult);
+            one = await Collection.insertMany(doc).then(resResult);
         }
         
         return one;
@@ -205,9 +207,6 @@ exports.modelQuery = async (query,collection,doc,option) => {
                 }
             }
         }
-        
-        
-        
         
         return one;
     }
@@ -288,8 +287,32 @@ exports.modelQuery = async (query,collection,doc,option) => {
         
     }
     
-    else if ( query == QUERY.Update) {
+    ////////////////////////////////////////////////////////////////////////////
+    else if (query == QUERY.FindoneAndUpdate) {
+        if(doc != undefined) {
+            var where = doc.where;
+            var update = doc.update;
+        }
         
+        if(Object.keys(option).length != 0) {
+            if (option.limit) {
+                
+            }
+            if (option.sort) {
+                
+            }
+            if (option.postJob) {
+                one = await Collection.findOneAndUpdate(where, update, {new : true}).then(resResult);
+            }
+        }
+        else {
+            one = await Collection.findOneAndUpdate(where, update, {new : true}).then(resResult);
+        }
+        return one;
+    }
+    ////////////////////////////////////////////////////////////////////////////
+    
+    else if ( query == QUERY.Update) {
         // switch (collection) {
         //     case COLLECTION_NAME.Alarm : 
                 
@@ -310,11 +333,13 @@ exports.modelQuery = async (query,collection,doc,option) => {
             if (option.sort) {
                 
             }
+            if (option.postJob) {
+                one = await Collection.where(where).update(update).setOptions({ runValidators: true }).exec().then(resResult);
+            }
         }
         else {
             one = await Collection.where(where).update(update).setOptions({ runValidators: true }).exec().then(resResult);
         }
-        
         return one;
     }
     
@@ -339,10 +364,14 @@ exports.modelQuery = async (query,collection,doc,option) => {
             if (option.sort) {
                 
             }
+            if (option.postJob) {
+                one = await Collection.where(where).updateMany(update).setOptions({ runValidators: true }).exec().then(resResult);
+            }
         }
         else {
             one = await Collection.where(where).updateMany(update).setOptions({ runValidators: true }).exec().then(resResult);
         }
+        
         
         return one;
     }
@@ -368,9 +397,12 @@ exports.modelQuery = async (query,collection,doc,option) => {
             if (option.sort) {
                 
             }
+            if (option.postJob) {
+                one = await Collection.where(where).updateOne(update).setOptions({ runValidators: true }).exec().then(resResult);
+            }
         }
         else {
-            one = await Collection.where(where).updateOne(update).then(resResult);
+            one = await Collection.where(where).updateOne(update).setOptions({ runValidators: true }).exec().then(resResult);
         }
         
         return one;

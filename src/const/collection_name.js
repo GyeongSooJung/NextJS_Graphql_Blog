@@ -1,6 +1,5 @@
 const COLLECTION_NAME = {
-    Company : "Company",
-    Employee : "Employee"
+    Person : "Person"
 }
 
 exports.COLLECTION_NAME = COLLECTION_NAME;

@@ -51,6 +51,7 @@ export default function Header(props) {
           align="center"
           noWrap
           className={classes.toolbarTitle}
+          onClick={()=>{setSection("Blog")}}
         >
           {title}
         </Typography>
