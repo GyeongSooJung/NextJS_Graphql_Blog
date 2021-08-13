@@ -1,9 +1,9 @@
 const { gql } = require('apollo-server');
-const { COMPANY } = require('../const/consts');
+const { PERSON } = require('../const/consts');
 
   let array = [];
 
-  for (var item in COMPANY) {
+  for (var item in PERSON) {
     if( item === "schema") {
       
     }

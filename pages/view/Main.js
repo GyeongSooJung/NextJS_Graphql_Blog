@@ -46,8 +46,9 @@ export default function Blog({graphqlData}) {
   const classes = useStyles();
   
   const [section, setSection] = useState("Blog");
-  const [Graphqldata,setGraphqlData] = useState(JSON.parse(graphqlData)); // graphql 데이터
+  const [Graphqldata,setGraphqlData] = useState(graphqlData); // graphql 데이터
 
+  // console.log("Main graphqlData : "+graphqlData )
   
   function pagefunction(section) {
     switch(section) {
@@ -56,7 +57,7 @@ export default function Blog({graphqlData}) {
       case  'Graphql' :
         return (
           <Graphqlpage
-            Graphqldata={Graphqldata}
+            gqldata={Graphqldata}
             onChange={(childData) => { // Graphqlpage에서 받아온 쿼리로 바꿈
             
             }}
