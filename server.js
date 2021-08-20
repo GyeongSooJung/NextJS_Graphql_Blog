@@ -14,30 +14,10 @@ const app = next({ dev }); // next 모듈을 사용
 const handle = app.getRequestHandler();
 
 //socket
-const socketapp = require('express')()
-const socketserver = require('http').createServer(app)
+const socketapp = require('express')();
+const socketserver = require('http').createServer(socketapp)
 const cors = require('cors');
 socketapp.use(cors());
-
-const io = require('socket.io')(socketserver,{
-    cors : {
-        origin: process.env.NEXT_PUBLIC_IP+":"+process.env.NEXT_PUBLIC_React_Port, //해보니까 localhost는 안됨
-        methods: ["GET", "POST"],
-        allowedHeaders: ["*"],
-        credentials: true,
-    }
-});
-
-io.on('connection', socket=>{
-    console.log("소켓 연결")
-    socket.on('message',({name,message}) => {
-        console.log("@@@")
-        io.emit('message',({name, message}))
-    })
-})
-
-
-
 
 const ports = {
   next: process.env.NEXT_PUBLIC_React_Port,
@@ -46,8 +26,10 @@ const ports = {
 
 
 app.prepare().then(() => {
-  const server = express(); // back 서버에서의 const app = express()
 
+  //nextserver
+  const server = express(); // back 서버에서의 const app = express()
+  server.use(cors()); // socket 서버를 사용해야되기 때문에 cors 설정
   server.use(morgan('dev'));
   server.use(express.json());
   server.use(express.urlencoded({ extended: true }));
@@ -75,13 +57,29 @@ app.prepare().then(() => {
   server.get('*', (req, res) => { // 모든 get 요청 처리
     return handle(req, res); // next의 get 요청 처리기
   });
-
-  //nextserver
   server.listen(ports.next, () => {
     console.log('next+expresss running on port 3000');
   });
 
   //socketserver
+  const io = require('socket.io')(socketserver,{ 
+      cors : { // cors 설정을 해줘야 함
+          origin: "http://"+process.env.NEXT_PUBLIC_IP+":"+process.env.NEXT_PUBLIC_React_Port, //해보니까 localhost는 안됨
+          methods: ["GET", "POST"],
+          allowedHeaders: ["*"],
+          credentials: true,
+      }
+  });
+
+  io.on('connection', socket=>{ // 서버 요청이 들어올때, 보낼 때
+      // socket으로 메세지가 들어올 때 
+      socket.on('message',(chatList) => {
+          console.log("서버 수신메세지 : "+JSON.stringify(chatList))
+          // 메세지가 들어올 때 보내줌 (일단은 그대로)
+          io.emit('message',(chatList))
+      })
+  })
+
   socketserver.listen(ports.socket, function(){
     console.log('listening on socket port 3001');
     })
