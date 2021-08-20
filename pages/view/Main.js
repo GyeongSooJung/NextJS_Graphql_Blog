@@ -12,6 +12,7 @@ import Header from '../../src/component/main/Header';
 import Main from '../../src/component/main/Main';
 import Footer from '../../src/component/main/Footer';
 import Graphqlpage from '../../src/component/main/Graphqlpage'
+import Chattingpage from '../../src/component/main/Chattingpage'
 
 import Axios from 'axios'
 
@@ -63,6 +64,14 @@ export default function Blog({graphqlData}) {
             }}
             />
           )
+      case 'Chatting' :
+        return (
+          <Chattingpage
+            onChange={(childData) => { // Graphqlpage에서 받아온 쿼리로 바꿈
+            
+            }}
+            />
+        )
       default :
         return 
     }
@@ -100,6 +109,7 @@ const Query = gql`
 query{
         modelQuery(Query : "find", Collection : "Person", Data : {})
         {
+          _id
           name
           age
           address

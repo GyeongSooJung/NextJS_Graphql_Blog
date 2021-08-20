@@ -60,6 +60,10 @@ const resolvers = {
           models = {result : false};
           return [models];
         }
+        else if (Query == "remove") {
+          models.result = true;
+          return [models];
+        }
         else {
           models.result = true;
           return models;
