@@ -5,17 +5,18 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 
-
-
 //pages
 import Header from '../../src/component/main/Header';
 import Main from '../../src/component/main/Main';
 import Footer from '../../src/component/main/Footer';
 import Graphqlpage from '../../src/component/main/Graphqlpage'
 import Chattingpage from '../../src/component/main/Chattingpage'
+import Filepage from '../../src/component/main/Filepage'
 
+//Axios
 import Axios from 'axios'
 
+//SSR apollo
 import {
   ApolloClient,
   InMemoryCache,
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 const sections = [
   { title: 'Graphql', url: '#' },
   { title: 'Chatting', url: '#' },
-  { title: 'ZIP', url: '#' },
+  { title: 'File', url: '#' },
   { title: 'Table', url: '#' }
 ];
 
@@ -67,10 +68,18 @@ export default function Blog({graphqlData}) {
       case 'Chatting' :
         return (
           <Chattingpage
-            onChange={(childData) => { // Graphqlpage에서 받아온 쿼리로 바꿈
+            onChange={(childData) => { // Chattingpage에서 받아온 쿼리로 바꿈
             
             }}
             />
+        )
+      case 'File' :
+        return (
+          <Filepage
+            onChange={(childData) => { // Zippage에서 받아온 쿼리로 바꿈
+              
+            }}
+          />
         )
       default :
         return 
@@ -96,7 +105,7 @@ export default function Blog({graphqlData}) {
           </ApolloProvider>
         </main>
       </Container>
-      <Footer title="Footer" description="Something here to give the footer a purpose!" />
+      <Footer title="Footer" description="티포의 개인 개발 블로그 " />
     </React.Fragment>
   );
 }

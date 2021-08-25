@@ -228,7 +228,6 @@ export default function Graphqlpage(props) {
         }
       }).then((result) => {
          var array = rows.array;
-         console.log(array)
          for (var i = 0 ; i < rows.array.length; i ++) {
            if( rows.array[i].objectID === objectID ) {
              array.splice(i, 1)
@@ -237,7 +236,6 @@ export default function Graphqlpage(props) {
          for (var i = 0; i < array.length; i ++) {
            array[i].id = i
          }
-         console.log(array)
          setRows({array : array});
       }).catch((error) => {
         console.log(error)
