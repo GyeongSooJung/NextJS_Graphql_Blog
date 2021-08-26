@@ -6,7 +6,7 @@ import {
   } from '@material-ui/core';
 
 
-export default function Graphqlpage(props) {
+export default function Filepage(props) {
 
     const [image, setImage] = useState("");
     const [isUploaded, setIsUploaded] = useState(false);

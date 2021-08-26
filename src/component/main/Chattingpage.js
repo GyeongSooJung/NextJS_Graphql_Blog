@@ -65,8 +65,6 @@ export default function Graphqlpage(props) {
     socket.emit('message',chatList.array)
   }
 
-  console.log(Chat, chatList)
-
     return (
         <Paper style={{margin : '50px', padding : '20px'}}>
         <Grid container className={classes.root} spacing={2}>
@@ -119,7 +117,7 @@ export default function Graphqlpage(props) {
                 onChange={chatHandler} />
             </Grid>
             <Grid>
-              <Button onClick={sendChat}>send</Button>
+              <Button onClick={sendChat} variant="contained" color="primary">send</Button>
 
             </Grid>
           </Grid>

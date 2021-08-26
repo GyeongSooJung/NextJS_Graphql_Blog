@@ -5,6 +5,7 @@ import {
   useQuery,
   gql
 } from "@apollo/client";
+import '../styles/Navbar.css';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000',

@@ -13,11 +13,13 @@ import {
 import Header from '../../src/component/main/Header';
 import Main from '../../src/component/main/Main';
 import Footer from '../../src/component/main/Footer';
-import Graphqlpage from '../../src/component/main/Graphqlpage'
-import Chattingpage from '../../src/component/main/Chattingpage'
-import Filepage from '../../src/component/main/Filepage'
-import Tablepage from '../../src/component/main/Tablepage'
-import Addresspage from '../../src/component/main/Addresspage'
+import Graphqlpage from '../../src/component/main/Graphqlpage';
+import Chattingpage from '../../src/component/main/Chattingpage';
+import Filepage from '../../src/component/main/Filepage';
+import Tablepage from '../../src/component/main/Tablepage';
+import Addresspage from '../../src/component/main/Addresspage';
+import Alarmpage from '../../src/component/main/Alarmpage';
+import Paypage from '../../src/component/main/Paypage';
 
 //Axios
 import Axios from 'axios'
@@ -50,7 +52,6 @@ const sections = [
   { title: 'File', url: '#' },
   { title: 'Table', url: '#' },
   { title: 'Address', url: '#' },
-  { title: 'Alarm', url: '#' },
   { title: 'Pay', url: '#' }
 ];
 
@@ -65,7 +66,7 @@ export default function Blog({SSRdata}) {
       router.push('/');
     }
   },[]);
-  
+
   const [section, setSection] = useState("Blog");
   const [Graphqldata,setGraphqlData] = useState(SSRdata.modelQuery); // graphql 데이터
   const [TableData,setTableData] = useState(SSRdata.schools);
@@ -121,6 +122,22 @@ export default function Blog({SSRdata}) {
             }}
           />
         )
+      // case 'Alarm' :
+      //   return (
+      //     <Alarmpage
+      //       onChange={(childData) => { // Zippage에서 받아온 쿼리로 바꿈
+              
+      //       }}
+      //     />
+      //   )
+      case 'Pay' :
+        return (
+          <Paypage
+            onChange={(childData) => { // Zippage에서 받아온 쿼리로 바꿈
+              
+            }}
+          />
+        )
       
       default :
         return (
@@ -136,7 +153,7 @@ export default function Blog({SSRdata}) {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="lg">
+      <Container maxWidth ={false}>
         <Header title="Blog"
         section={section}
         sections={sections}

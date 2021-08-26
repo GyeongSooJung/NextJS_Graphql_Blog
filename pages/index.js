@@ -13,11 +13,11 @@ import { useCookies } from "react-cookie";
 export default function Home({launches}) {
   const router = useRouter();
 
-  useEffect(()=> { // 쿠키가 있을경우 메인화면으로
-    if(cookies.isLogined){
-      router.push('/view/Main');
-    }
-  },[])
+  // useEffect(()=> { // 쿠키가 있을경우 메인화면으로
+  //   if(cookies.isLogined){
+  //     router.push('/view/Main');
+  //   }
+  // },[])
   
   const [password,setPassword] = useState('');
   const [cookies, setCookie, removeCookie] = useCookies(['isLogined'])
