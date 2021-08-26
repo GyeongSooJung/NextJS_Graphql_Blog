@@ -1,3 +1,5 @@
+## .env
+
 NEXT_PUBLIC_IP=
 NEXT_PUBLIC_React_Port=
 NEXT_PUBLIC_Socket_Port=
