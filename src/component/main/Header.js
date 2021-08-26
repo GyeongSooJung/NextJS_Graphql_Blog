@@ -9,6 +9,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 
+import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
+
 const useStyles = makeStyles((theme) => ({
   toolbar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
@@ -31,6 +34,9 @@ export default function Header(props) {
   const { sections, title } = props;
   const [section,setSection] = useState(props.section)
 
+  const router = useRouter();
+  const [cookies, setCookie, removeCookie] = useCookies(['isLogined']);
+
   
   function sectionHandler(event) {
     console.log(event.target.innerHTML)
@@ -39,11 +45,18 @@ export default function Header(props) {
     props.onChange(value)
   }
   
+  function logout() {
+
+    let result = window.confirm("로그아웃 하시겠습니까?");
+    if(result) {
+      removeCookie('isLogined');
+      router.push('/')
+    }
+  }
 
   return (
     <React.Fragment>
       <Toolbar className={classes.toolbar}>
-        <Button size="small">Subscribe</Button>
         <Typography
           component="h2"
           variant="h5"
@@ -51,15 +64,18 @@ export default function Header(props) {
           align="center"
           noWrap
           className={classes.toolbarTitle}
-          onClick={()=>{setSection("Blog")}}
+          onClick={()=>{setSection("TP's Blog")}}
         >
           {title}
         </Typography>
         <IconButton>
           <SearchIcon />
         </IconButton>
-        <Button variant="outlined" size="small">
-          Sign up
+        <Button
+         variant="outlined"
+         size="small"
+         onClick={logout}>
+          Log out
         </Button>
       </Toolbar>
       <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>

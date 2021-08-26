@@ -4,30 +4,43 @@ import { useEffect, useState } from "react";
 import {TextField} from '@material-ui/core';
 import styles from '../styles/Home.module.css'
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { Button } from '@material-ui/core';
 
-// import socketIOClient from "socket.io-client"; // 소켓 io
-
-// const ENDPOINT = "http://3.6.177.242:3001"; // 소켓 io 포트랑 연결
-
-
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  useQuery,
-  gql
-} from "@apollo/client";  // apollo 이용을 위한 것들
-
-
+import { useCookies } from "react-cookie";
 
 export default function Home({launches}) {
-  
-  
-  useEffect(() => {
-  }, []);
+  const router = useRouter();
 
+  useEffect(()=> { // 쿠키가 있을경우 메인화면으로
+    if(cookies.isLogined){
+      router.push('/view/Main');
+    }
+  },[])
+  
+  const [password,setPassword] = useState('');
+  const [cookies, setCookie, removeCookie] = useCookies(['isLogined'])
+
+  function passwordHandler(e) {
+    setPassword(e.target.value)
+  }
+
+  function login(e) {
+    e.preventDefault();
+    Axios.get('http://'+process.env.NEXT_PUBLIC_IP+':'+process.env.NEXT_PUBLIC_React_Port+'/api/login',{params :{password : password}})
+    .then((result) => {
+      if(result.data.result === true) {
+        
+        alert('로그인 성공, 30분동안 bcrypt로 암호화된 비밀번호가 쿠키에 저장됩니다.');
+        setCookie('isLogined',result.data.BPW,{path: '/', expires: new Date(Date.now()+1800000)});
+        router.push('/view/Main')
+      }
+      else {
+        alert('비밀번호가 다릅니다')
+      }
+    })
+  }
   return (
    <div className={styles.container}>
       <Head>
@@ -36,32 +49,26 @@ export default function Home({launches}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <Link href='/view/Signin' as={`/view/Signin`} >
-        <a>
-          <Button variant="contained" color="primary">
-            Signin
-          </Button>
-        </a>
-      </Link>
-      
-      <Link href='/view/SignupConfirm' as={`/view/SignupConfirm`} >
-        <a>
-          <Button variant="contained" color="primary">
-            Signup
-          </Button>
-        </a>
-      </Link>
-      
-      <Link href='/view/Main' as={`/view/Main`} >
-        <a>
-          <Button variant="contained" color="primary">
-            Main
-          </Button>
-        </a>
-      </Link>
+      <form onSubmit={login} >
+      <TextField
+        name="password"
+        label="password"
+        type="password"
+        autoComplete="password"
+        value={password}
+        onChange={passwordHandler} />
+
+      <Button
+        variant="contained"
+        color="primary"
+        type="submit">
+        Enter
+      </Button>
+      </form>
     </div>
     );
 }
+
 
 //------------------------------graphql 서버 렌더링
 // const Query = gql`

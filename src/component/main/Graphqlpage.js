@@ -55,7 +55,7 @@ function createRow(id, name, age, address, objectID) {
 export default function Graphqlpage(props) {
   const classes = useStyles();
   
-  const [GraphqlData,setGraphqlData] = useState(JSON.parse(props.gqldata)) // 상위에서 가져온 DB값들 (string으로 받아왔기 때문에 parse)
+  const [GraphqlData,setGraphqlData] = useState(props.gqldata) // 상위에서 가져온 DB값들 (string으로 받아왔기 때문에 parse)
   const [rows, setRows] = useState(() => { // 처음 rows는 처음 query로 가져온 데이터들을 모아둔 것
       let array = []
       for (var i = 0; i< GraphqlData.length; i ++) {

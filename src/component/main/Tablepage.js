@@ -1,14 +1,14 @@
 import React, { useState, useEffect} from 'react';
+import Axios from 'axios'
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Table,
-        TableBody,
-        TableCell,
-        TableHead,
-        TableRow,
-        Title,
-        Checkbox,
-        TableContainer } from '@material-ui/core';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Checkbox from '@material-ui/core/Checkbox';
+import TableContainer from '@material-ui/core/TableContainer';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
@@ -29,8 +29,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
 //리덕스
-import {useDispatch} from 'react-redux';
-import {deleteData, createData} from '../../../../_actions/list_action';
+// import {useDispatch} from 'react-redux';
+// import {deleteData, createData} from '../../../../_actions/list_action';
 
 //다이알로그
 import Dialog from '@material-ui/core/Dialog';
@@ -80,54 +80,21 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-// Generate Order Data
-function createRow(id, check, CNU, CNA, CEON, CAD, CTEL, BRI) {
-  return { id, check, CNU, CNA, CEON, CAD, CTEL, BRI};
-}
-
 // 테이블 헤더 데이터
 const headCells = [
-  { id: 'CNU', numeric: false, disablePadding: false, label: '사업자등록번호' },
-  { id: 'CNA', numeric: false, disablePadding: false, label: '상호명' },
-  { id: 'CEON', numeric: false, disablePadding: false, label: '대표자명' },
-  { id: 'CAD', numeric: false, disablePadding: false, label: '주소' },
-  { id: 'CTEL', numeric: false, disablePadding: false, label: '전화번호' },
-  { id: 'BRI', numeric: false, disablePadding: false, label: '적요' }
-];
-
-const rows = [ //나중에 디비에서 데이터 가져오고 반복문 안에다가 createDate를 넣어서 생성 (id는 1씩증가)
-  createRow(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', '312.44','22','22'),
-  createRow(1, '16 Mar, 2019', 'Paul McCartney', 'London, UK', 'VISA ⠀•••• 2574', '866.99','22','22'),
-  createRow(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', '00.81','22','22'),
-  createRow(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', '654.39','22','22'),
-  createRow(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(5, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(6, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(7, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(8, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(9, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(10, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(11, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(12, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(13, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(14, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(15, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(16, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(17, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(18, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(19, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(20, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(21, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
-  createRow(22, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79','22','22'),
+  { id: 'name', numeric: false, disablePadding: false, label: '학교명' },
+  { id: 'division', numeric: false, disablePadding: false, label: '학교급구분' },
+  { id: 'type', numeric: false, disablePadding: false, label: '설립형태' },
 ];
 
 
-
-export default function Business(props) {
+export default function Tablepage(props) {
   const classes = useStyles();
+
+  let [rows,setRows] = useState(props.tbdata) //처음 디비에서 불러온 총 데이터 
   
-  let [listName,setListName] = useState(props.formParent.name); //리스트 이름
-  let [listArrayall,setListArrayall] = useState({array : rows}); //전체 리스트 배열
+  let [listName,setListName] = useState('Table'); //리스트 이름
+  let [listArrayall,setListArrayall] = useState({array : rows}); //전체 리스트 배열 (검색하거나 sort 할 경우 바뀜)
   let [listArraypost, setListArraypost] = useState(() => { //보여지는 리스트 배열
         let emptyArray = [];
         for(var i = 0 ; i < 10; i ++) {
@@ -148,42 +115,33 @@ export default function Business(props) {
         let emptyArray = {};
         for(var i = 0; i < postNumber; i ++) {
           if(rows[i])
-          emptyArray[i] = {indexid : i, rowsid : rows[i].id, checked : false};
+          emptyArray[i] = {indexid : i, rowsid : rows[i]._id, checked : false};
         }
         return emptyArray;
   })
   let[allcheck,setAllCheck] = useState(false); // 전체선택 여부 
   
-  let [order,setOrder] = useState("desc"); // sort에 쓰일 state
-  let [orderBy,setOrderBy] = useState("id"); // sort에 쓰일 state
+  let [order,setOrder] = useState("desc"); // sort에 쓰일 state(오름차순, 내림차순)
+  let [orderBy,setOrderBy] = useState("id"); // sort에 쓰일 state(정렬될 값)
   let [searchOption, setSearchOption] = useState(""); // search에 쓰일 state
   let [searchText, setSearchText] = useState(""); //검색할 내용
   let [searchDate, setSearchDate] = useState(""); //검색할 내용(날짜)
   
   let [backtoall, setBacktoALL] = useState(false); // 전체목록 버튼 보여지게 함
   
-  const dispatch = useDispatch(); // 등록, 수정 디스패쳐
+//   const dispatch = useDispatch(); // 등록, 수정 디스패쳐
   
   let [dialOpen,setDialOpen] = useState(false) // 다이알로그 오픈 여부
   
-  const body = {
-    CNA : "",
-    CNU : "",
-    CAD : "",
-    CEON : "",
-    CEOP : "",
-    CTEL : "",
-    CFAX : "",
-    CEM : "",
-    CTY : "",
-    CTO : "",
-    CAN : "",
-    CME : ""
+  const body = { // 등록을 위한 body
+    name : "",
+    division : "",
+    type : ""
   }
   
-  let [companyBody,setCompanyBody] = useState(body);
+  let [schoolBody,setSchoolBody] = useState(body);
   
-  let {CNA, CNU, CAD, CEON, CEOP, CTEL, CFAX, CEM, CTY, CTO, CAN, CME } = companyBody;
+  let {name, division, type} = schoolBody;
   
   function OnTableheadHandler(props) {  //테이블 헤드 핸들러
     return (
@@ -216,7 +174,6 @@ export default function Business(props) {
                 </TableSortLabel>
               </TableCell>
               ))}
-              <TableCell>상세</TableCell>
           </TableRow>
       </TableHead>
     ) 
@@ -238,13 +195,9 @@ export default function Business(props) {
                   checked={checkedArray[index].checked ? true : false}
                   /> :" " }
               </TableCell>
-              <TableCell>{row.CNU}</TableCell>
-              <TableCell>{row.CNA}</TableCell>
-              <TableCell>{row.CEON}</TableCell>
-              <TableCell>{row.CAD}</TableCell>
-              <TableCell>{row.CTEL}</TableCell> 
-              <TableCell>{row.BRI}</TableCell>
-              <TableCell align="right">{row ? "상세" : ""}</TableCell>
+              <TableCell>{row.name}</TableCell>
+              <TableCell>{row.division}</TableCell>
+              <TableCell>{row.type}</TableCell>
           </TableRow>
           )
        }
@@ -262,55 +215,103 @@ export default function Business(props) {
         let emptyArray = []; // 빈 배열을 만들고
         for (var i = 0; i < Object.keys(checkedArray).length; i++ ) { // 체크박스에 담겨있는 것들의 갯수 
           if(checkedArray[i].checked === true) { // 체크가 되어있으면
-            for( var x = 0; x < rows.length; x ++) {// 데이터베이스에서 불러온 내용들 중에서 CNU를 뽑아낸다
-              if(checkedArray[i].rowsid === rows[x].id)
-              emptyArray.push(rows[x].CNU); // 삭제할 CNU를 담는다.
+            for( var x = 0; x < rows.length; x ++) {// 데이터베이스에서 불러온 내용들 중에서 name를 뽑아낸다
+              if(checkedArray[i].rowsid === rows[x]._id)
+              emptyArray.push({_id : rows[x]._id}); // 삭제할 _id를 담는다.
             }
           }
         }
-        
-        dispatch(deleteData(emptyArray))
-        .then(response => {
-          if(response.payload.result === true) {
-            // 서버에서 받아온 데이터를 이용해 rows에서 해당 내용 제거
-            
-            // 제거한 후 listAll 바꿔줌(바뀐 rows로)
-            alert("삭제 되었습니다.");
+
+      let removeQuery = "["
+      for(var i = 0; i < emptyArray.length; i ++) {
+        removeQuery += "{_id:";
+        removeQuery += "\""+ emptyArray[i]._id +"\"";
+        if(i === emptyArray.length -1) {
+          removeQuery += "}"
+        }else {
+          removeQuery += "},"
+        }
+      }
+      removeQuery += "]"
+
+      Axios({
+        url: 'http://'+process.env.NEXT_PUBLIC_IP+':'+process.env.NEXT_PUBLIC_Graphql_Port,
+        method: 'post',
+        data : {
+          query : `
+            query{
+              modelQuery(Query : "removeschool", Collection : "School", Data : `+removeQuery+`)
+              {
+                _id
+              }
+            }
+          `
+        }
+      }).then((result) => { 
+        if(result.status === 200 ) {
+        let array = rows;
+
+        for(var i = 0; i < array.length; i ++) {
+          for(var j = 0; j < emptyArray.length; j ++) {
+            if(emptyArray[j]._id === array[i]._id) {
+              array.splice(i,1);
+            }
           }
-          else {
-            alert("삭제 실패했습니다.");
-          }
-        })
-        
+        }
+        setRows(array);
+        setListArrayall({array : rows})
           
+        }
+        else {
+          alert("실패 하였습니다.");
+        }
+        
+        
+      })
       }else{
           alert("취소 되었습니다.");
       }
   }
   
+   // 데이터 등록 핸들러
   const onCreateHandler = (event) => {
     event.preventDefault();
-    
-    dispatch(createData(companyBody))
-    .then(response => {
-      if(response.payload.result === true) {
-            // 서버에서 받아온 데이터를 이용해 rows에서 해당 내용 추
-            
-            // 제거한 후 listAll 바꿔줌(바뀐 rows로)
-            alert("등록이 완료되었습니다..");
-            setCompanyBody(body);
-          }
-          else {
-            alert("등록 실패했습니다.");
-          }
-    })
-  
-    setDialOpen(false);
+
+    Axios({
+        url: 'http://'+process.env.NEXT_PUBLIC_IP+':'+process.env.NEXT_PUBLIC_Graphql_Port,
+        method: 'post',
+        data : {
+          query : `
+            query{
+              modelQuery(Query : "create", Collection : "School", Data : {name : "${name}", division : "${division}", type : "${type}"})
+              {
+                _id
+                name
+                division
+                type
+              }
+            }
+          `
+        }
+      }).then((result) => { // create가 성공할 경우 데이터를 db에서 불러온 데이터인 rows와 보여지는 리스트인 listarrayall에 넣어준다 
+        if(result.status === 200) {
+          const resultData = result.data.data.modelQuery[0];
+          let array = rows;
+          array.push({_id : resultData._id, name : resultData.name, division : resultData.division, type : resultData.type});
+          setRows(array);
+          setListArrayall({array : rows})
+        }
+        else {
+          alert('실패하였습니다.')
+        }
+      })
+      setSchoolBody(body);
+      setDialOpen(false);
   }
   
   // 등록 데이터 입력 핸들러
   const onCreateDataHandler = (event) => { // 검색 데이터 입력 
-    setCompanyBody({...companyBody,[event.target.name] : event.target.value})
+    setSchoolBody({...schoolBody,[event.target.name] : event.target.value})
     
   }
   
@@ -333,6 +334,11 @@ export default function Business(props) {
   const onPaginationHandler = (event,page) => {
     setCurrentPage(page);
   }
+
+  // useEffect(()=> { //db에 변화가 생겨 rows가 바뀔경우 listArrayAll도 바꿔줌
+  //   console.log("rows changed")
+  //   setListArrayall({array : rows})
+  // },[rows])
   
   useEffect(() => { // search 되거나 sort 될 때 listarraypost 와 checkedArray 바꿔줌 
     // if(Object.keys(listArrayall).length == 1) { // 이상하게 제이슨으로 해야되는 경우가 있음..
@@ -351,7 +357,7 @@ export default function Business(props) {
         let emptyArray = {};
         for(var i = 0; i < postNumber; i ++) {
           if(listArrayall.array[i]) // 간추려진 all-list에서 존재하는 데이터가 있을 때 만들어준다.
-          emptyArray[i] = {indexid : i, rowsid : listArrayall.array[i].id, checked : false};
+          emptyArray[i] = {indexid : i, rowsid : listArrayall.array[i]._id, checked : false};
         }
         return emptyArray;
       })
@@ -389,7 +395,7 @@ export default function Business(props) {
       let j = 0;
       for (var i = start; i < end; i ++) {
         if(listArrayall.array[i] !== undefined) {
-          emptyJson[j] = {indexid : j, rowsid : i, checked : false}
+          emptyJson[j] = {indexid : j, rowsid : listArrayall.array[i]._id, checked : false}
         }
         j++;
       }
@@ -537,8 +543,7 @@ export default function Business(props) {
   
   return (
     <React.Fragment>
-        <Title>거래처</Title>
-        <Paper className={classes.paper}>
+        <Paper style={{margin : '50px', padding : '20px'}}>
           <Grid container className={classes.root} spacing={2}>
             <Grid item xs={12}>
               
@@ -558,11 +563,11 @@ export default function Business(props) {
                       margin="normal"
                       required
                       fullWidth
-                      name="CNU"
-                      label="사업자 등록번호"
-                      autoComplete="CNU"
+                      name="name"
+                      label="이름"
+                      autoComplete="name"
                       autoFocus
-                      value={CNU}
+                      value={name}
                       onChange={onCreateDataHandler}
                     />
                     <TextField
@@ -570,10 +575,10 @@ export default function Business(props) {
                       margin="normal"
                       required
                       fullWidth
-                      name="CNA"
-                      label="상호"
+                      name="division"
+                      label="학교급구분"
                       autoFocus
-                      value={CNA}
+                      value={division}
                       onChange={onCreateDataHandler}
                     />
                     <TextField
@@ -581,102 +586,10 @@ export default function Business(props) {
                       margin="normal"
                       required
                       fullWidth
-                      name="CEON"
-                      label="대표자명"
+                      name="type"
+                      label="설립형태"
                       autoFocus
-                      value={CEON}
-                      onChange={onCreateDataHandler}
-                    />
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="CAD"
-                      label="주소"
-                      autoFocus
-                      value={CAD}
-                      onChange={onCreateDataHandler}
-                    />
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="CTEL"
-                      label="전화번호"
-                      autoFocus
-                      value={CTEL}
-                      onChange={onCreateDataHandler}
-                    />
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="CEOP"
-                      label="휴대폰번호"
-                      autoFocus
-                      value={CEOP}
-                      onChange={onCreateDataHandler}
-                    />
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      fullWidth
-                      name="CFAX"
-                      label="팩스"
-                      autoFocus
-                      value={CFAX}
-                      onChange={onCreateDataHandler}
-                    />
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      fullWidth
-                      name="CTY"
-                      label="업태"
-                      autoFocus
-                      value={CTY}
-                      onChange={onCreateDataHandler}
-                    />
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      fullWidth
-                      name="CTO"
-                      label="종목"
-                      autoFocus
-                      value={CTO}
-                      onChange={onCreateDataHandler}
-                    />
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      fullWidth
-                      name="CEM"
-                      label="이메일"
-                      autoFocus
-                      value={CEM}
-                      onChange={onCreateDataHandler}
-                    />
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      fullWidth
-                      name="CAN"
-                      label="계좌번호"
-                      autoFocus
-                      value={CAN}
-                      onChange={onCreateDataHandler}
-                    /><TextField
-                      variant="outlined"
-                      margin="normal"
-                      fullWidth
-                      name="CME"
-                      label="적요"
-                      autoFocus
-                      value={CME}
+                      value={type}
                       onChange={onCreateDataHandler}
                     />
                   </DialogContent>

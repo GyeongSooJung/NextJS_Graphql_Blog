@@ -1,5 +1,5 @@
 const { gql } = require('apollo-server');
-const { PERSON } = require('../const/consts');
+const { PERSON, SCHOOL } = require('../const/consts');
 
   let array = [];
 
@@ -10,6 +10,17 @@ const { PERSON } = require('../const/consts');
     else if( item === "CCA" || item === "CUA" ) {
       array.push(item + `: Date`);
     }
+    else {
+      array.push( item + `: String`);
+    }
+  }
+
+  for (var item in SCHOOL) {
+    if( item === "schema") {
+      
+    }
+    else if( item ==='name' )
+    {}
     else {
       array.push( item + `: String`);
     }
@@ -31,9 +42,17 @@ const typeDefs = gql`
     
     result: Boolean
   }
+
+  type School {
+    _id : ID
+    name : String
+    division : String
+    type : String
+  }
   
   type Query {
     modelQuery(Query : String, Collection : String, Data : JSON, Option : JSON ) : [modelQuery]
+    schools : [School]
   }
   
 `;

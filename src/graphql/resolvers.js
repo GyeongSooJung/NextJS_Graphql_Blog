@@ -50,21 +50,31 @@ const resolvers = {
       let models;
       
       try {
-        models = await modelQuery(Query,Collection,Data,Option);
         
         if (Query == "create" || Query == "findone" || Query == "findoneandupdate") {
+          models = await modelQuery(Query,Collection,Data,Option);
           models.result = true;
           return [models]; // GraphQL에서 결과값을 배열로 지정해놔서 맞춤 출력
         }
         else if (Query == "find" && models.length == 0) {
+          models = await modelQuery(Query,Collection,Data,Option);
           models = {result : false};
           return [models];
         }
         else if (Query == "remove") {
+          models = await modelQuery(Query,Collection,Data,Option);
+          models.result = true;
+          return [models];
+        }
+        else if (Query == "removeschool") { // 여러개 삭제
+          for ( var i = 0; i < Data.length; i ++) {
+            await modelQuery(QUERY.Remove,COLLECTION_NAME.School,{_id : Data[i]._id},{});
+          }
           models.result = true;
           return [models];
         }
         else {
+          models = await modelQuery(Query,Collection,Data,Option);
           models.result = true;
           return models;
         }
@@ -73,6 +83,10 @@ const resolvers = {
         console.error(err);
         return [models];
       }
+    },
+
+    schools : () => {
+      return modelQuery(QUERY.Find,COLLECTION_NAME.School,{},{});
     }
   },
 };

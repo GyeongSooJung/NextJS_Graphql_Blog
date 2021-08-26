@@ -5,7 +5,7 @@ const connect = () => {
         mongoose.set('debug', true);
     }
     // mongoose.connect('mongodb://'+process.env.MONGO_ID+':'+process.env.MONGO_PWD+'@'+process.env.MONGO_IP+':'+process.env.MONGO_PORT+'/admin', {
-    mongoose.connect('mongodb://54.65.19.125:27017/admin', {
+    mongoose.connect('mongodb://test:test1234@54.65.19.125:27017/admin', {
         useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false,
         dbName: 'Blog'
     }, {

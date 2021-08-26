@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose; 
 
-const { COMPANY,EMPLOYEE,
+const { SCHOOL,PERSON,DOG,
         COLLECTION_NAME, QUERY
       } = require('../const/consts'); //consts 파일들
       
