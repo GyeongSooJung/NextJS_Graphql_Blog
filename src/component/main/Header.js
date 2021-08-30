@@ -64,9 +64,9 @@ export default function Header(props) {
           align="center"
           noWrap
           className={classes.toolbarTitle}
-          onClick={()=>{setSection("TP's Blog")}}
+          onClick={()=>{setSection("Blog")}}
         >
-          TP's Blog
+          GS's Blog
         </Typography>
         <Button
          variant="outlined"

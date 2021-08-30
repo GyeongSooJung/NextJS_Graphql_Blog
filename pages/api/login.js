@@ -2,8 +2,6 @@
 const bcrypt = require('bcrypt');
 
 export default (req, res) => {
-    console.log(req.query)
-    console.log(process.env.PASSWORD)
 
     const bcryptPW = bcrypt.hashSync(req.query.password, 10)
     if(req.query.password === process.env.PASSWORD) {

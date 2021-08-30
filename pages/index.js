@@ -30,6 +30,7 @@ export default function Home({launches}) {
     e.preventDefault();
     Axios.get('http://'+process.env.NEXT_PUBLIC_IP+':'+process.env.NEXT_PUBLIC_React_Port+'/api/login',{params :{password : password}})
     .then((result) => {
+      console.log(result)
       if(result.data.result === true) {
         
         alert('로그인 성공, 30분동안 bcrypt로 암호화된 비밀번호가 쿠키에 저장됩니다.');
