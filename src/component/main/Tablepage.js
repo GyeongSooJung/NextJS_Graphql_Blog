@@ -77,7 +77,13 @@ const useStyles = makeStyles((theme) => ({
   },
   tableCell: {
     padding: "0px 16px"
-  }
+  },
+  tablehead: {
+    backgroundColor: '#3f51b5'
+  },
+  tableheadtext: {
+    color: 'white'
+  },
 }));
 
 // 테이블 헤더 데이터
@@ -145,7 +151,7 @@ export default function Tablepage(props) {
   
   function OnTableheadHandler(props) {  //테이블 헤드 핸들러
     return (
-      <TableHead>
+      <TableHead className={classes.tablehead}>
           <TableRow>
               <TableCell
               padding="checkbox"
@@ -153,12 +159,14 @@ export default function Tablepage(props) {
                 <Checkbox
                 checked={allcheck}
                 onChange={onAllcheckHandler}
+                style={{color : 'white'}}
               />
               </TableCell>
               {headCells.map((headCell) => (
               <TableCell
                 key={headCell.id}
                 sortDirection={orderBy === headCell.id ? order : false}
+                className={classes.tableheadtext}
               >
                 <TableSortLabel
                   active={orderBy === headCell.id}
@@ -463,6 +471,8 @@ export default function Tablepage(props) {
       </FormControl>
     )
   }
+
+  console.log(headCells)
   
   const onSearchTextHandler = (event) => { // 검색 데이터 입력 
     setSearchText(event.target.value);
@@ -545,8 +555,7 @@ export default function Tablepage(props) {
     <React.Fragment>
         <Paper style={{margin : '50px', padding : '20px'}}>
           <Grid container className={classes.root} spacing={2}>
-            <Grid item xs={12}>
-              
+            <Grid item >
               <Button
               variant="contained"
               color="primary"
@@ -554,67 +563,69 @@ export default function Tablepage(props) {
               >
                 + 신규등록
               </Button>
-              <Dialog open={dialOpen} onClose={dialCloseHandler} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">거래처 등록</DialogTitle>
-                <form onSubmit={onCreateHandler}>
-                  <DialogContent>
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="name"
-                      label="이름"
-                      autoComplete="name"
-                      autoFocus
-                      value={name}
-                      onChange={onCreateDataHandler}
-                    />
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="division"
-                      label="학교급구분"
-                      autoFocus
-                      value={division}
-                      onChange={onCreateDataHandler}
-                    />
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="type"
-                      label="설립형태"
-                      autoFocus
-                      value={type}
-                      onChange={onCreateDataHandler}
-                    />
-                  </DialogContent>
-                  <DialogActions>
-                    <Button type="submit" color="primary">
-                      등록
-                    </Button>
-                    <Button onClick={dialCloseHandler} color="primary">
-                      나가기
-                    </Button>
-                  </DialogActions>
-                </form>
-              </Dialog>
-              <Button
-              variant="contained"
-              color="secondary"
-              className={classes.button}
-              startIcon={<DeleteIcon />}
-              onClick={onDeleteHandler}
-              >
-                 선택 삭제
-              </Button>
-              
-              <form onSubmit={onSearchTextSubmit} >
-              
+            </Grid>
+            <Dialog open={dialOpen} onClose={dialCloseHandler} aria-labelledby="form-dialog-title">
+              <DialogTitle id="form-dialog-title">거래처 등록</DialogTitle>
+              <form onSubmit={onCreateHandler}>
+                <DialogContent>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="name"
+                    label="이름"
+                    autoComplete="name"
+                    autoFocus
+                    value={name}
+                    onChange={onCreateDataHandler}
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="division"
+                    label="학교급구분"
+                    autoFocus
+                    value={division}
+                    onChange={onCreateDataHandler}
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="type"
+                    label="설립형태"
+                    autoFocus
+                    value={type}
+                    onChange={onCreateDataHandler}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button type="submit" color="primary">
+                    등록
+                  </Button>
+                  <Button onClick={dialCloseHandler} color="primary">
+                    나가기
+                  </Button>
+                </DialogActions>
+              </form>
+            </Dialog>
+            <Grid item>
+            <Button
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            startIcon={<DeleteIcon />}
+            onClick={onDeleteHandler}
+            >
+                선택 삭제
+            </Button>
+            </Grid>
+            <Grid item>
+            <form onSubmit={onSearchTextSubmit} >
               <SearchoptionHandler />
               <InputBase
               required
@@ -623,22 +634,23 @@ export default function Tablepage(props) {
               className={classes.input}
               placeholder="검색어를 입력하세요."
               />
-              
-              <IconButton type="submit"
-              className={classes.iconButton}
-              type ="submit"
+            <IconButton type="submit"
+            className={classes.iconButton}
+            type ="submit"
+            >
+            <SearchIcon />
+            </IconButton>
+            </form>
+            </Grid>
+            <Grid item>
+            {backtoall ? 
+            <Button
+              variant="outlined"
+              onClick={backToAll}
               >
-              <SearchIcon />
-              </IconButton>
-              </form>
-              {backtoall ? 
-              <Button
-                variant="outlined"
-                onClick={backToAll}
-                >
-                  전체 목록
-              </Button> 
-              : "" }
+                전체 목록
+            </Button> 
+            : "" }
             </Grid>
           </Grid>
             

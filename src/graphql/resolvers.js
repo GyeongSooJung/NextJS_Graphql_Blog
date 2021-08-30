@@ -56,10 +56,15 @@ const resolvers = {
           models.result = true;
           return [models]; // GraphQL에서 결과값을 배열로 지정해놔서 맞춤 출력
         }
-        else if (Query == "find" && models.length == 0) {
+        else if (Query == "find") {
           models = await modelQuery(Query,Collection,Data,Option);
-          models = {result : false};
-          return [models];
+          if(models.length === 0) {
+            models = {result : false};
+            return [models];
+          }
+          else {
+            return models
+          }
         }
         else if (Query == "remove") {
           models = await modelQuery(Query,Collection,Data,Option);

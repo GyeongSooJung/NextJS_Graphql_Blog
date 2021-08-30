@@ -41,10 +41,27 @@ import {
 
 
 const useStyles = makeStyles({
-  table: {
-    Width: 300,
-    Height: 300
+  paper : {
+    height : 450,
+    margin : '20px',
+    padding : '20px'
   },
+  tablecontainer : {
+    height : 380
+  },
+  table: {
+    height : 80
+  },
+  tablehead: {
+    backgroundColor: '#3f51b5'
+  },
+  tableheadtext: {
+    color: 'white'
+  },
+  grid : {
+    margin : '3px',
+    padding : '3px'
+  }
 });
 
 function createRow(id, name, age, address, objectID) {
@@ -98,6 +115,7 @@ export default function Graphqlpage(props) {
       </div>
     );
   }
+  
 
 
 
@@ -247,241 +265,264 @@ export default function Graphqlpage(props) {
 
   return (
     <div>
-        <Paper style={{margin : '50px', padding : '20px'}}>
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center">id</TableCell>
-                  <TableCell align="center">name</TableCell>
-                  <TableCell align="center">age</TableCell>
-                  <TableCell align="center">address</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.array.map((row) => (
-                <TableRow key={row.objectID}>
-                <TableCell align="center">{row.id}</TableCell>
-                  <TableCell align="center">{row.name}</TableCell>
-                  <TableCell align="center">{row.age}</TableCell>
-                  <TableCell align="center">{row.address}</TableCell>
-                </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-      
-        <Paper style={{margin : '50px', padding : '20px'}}>
-            <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Query</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={modelqueryQuery}
-              onChange={ChangeQuery}
-            >
-              <MenuItem value={'create'}>create</MenuItem>
-              <MenuItem value={'find'}>find</MenuItem>
-              <MenuItem value={'update'}>update</MenuItem>
-              <MenuItem value={'delete'}>delete</MenuItem>
-            </Select>
-          </FormControl>
-          {(modelqueryQuery === 'create' ) ?
-            <TableContainer component={Paper} style={{height : '300px'}}>
-              <form noValidate >
+    <Grid container  spacing={2}>
+        <Grid item xs={12} lg={4} >
+          <Paper className={classes.paper}>
+            <TableContainer className={classes.tablecontainer}  component={Paper}>
               <Table className={classes.table} aria-label="simple table">
+                <TableHead className={classes.tablehead}>
+                  <TableRow>
+                    <TableCell className={classes.tableheadtext} align="center">id</TableCell>
+                    <TableCell className={classes.tableheadtext} align="center">name</TableCell>
+                    <TableCell className={classes.tableheadtext} align="center">age</TableCell>
+                    <TableCell className={classes.tableheadtext} align="center">address</TableCell>
+                  </TableRow>
+                </TableHead>
                 <TableBody>
-                  <TableRow key={'query'}>
-                    <TableCell align="center">name</TableCell>
-                    <TableCell align="center">
-                    <TextField
-                    name="name"
-                    label="name"
-                    autoComplete="name"
-                    value={modelqueryData.name}
-                    onChange={createHandler} />
-                    </TableCell>
+                  {rows.array.map((row) => (
+                  <TableRow key={row.objectID}>
+                  <TableCell align="center">{row.id}</TableCell>
+                    <TableCell align="center">{row.name}</TableCell>
+                    <TableCell align="center">{row.age}</TableCell>
+                    <TableCell align="center">{row.address}</TableCell>
                   </TableRow>
-                  <TableRow key={'query2'}>
-                    <TableCell align="center">age</TableCell>
-                    <TableCell align="center">
-                    <TextField
-                    name="age"
-                    label="age"
-                    autoComplete="age"
-                    value={modelqueryData.age}
-                    onChange={createHandler} />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow key={'query3'}>
-                    <TableCell align="center">address</TableCell>
-                    <TableCell align="center">
-                    <TextField
-                    name="address"
-                    label="address"
-                    autoComplete="address"
-                    value={modelqueryData.address}
-                    onChange={createHandler} />
-                    </TableCell>
-                  </TableRow>
+                  ))}
                 </TableBody>
               </Table>
-              </form>
             </TableContainer>
-          : ""}
-          {(modelqueryQuery === 'find') ? 
-          <TableContainer component={Paper} style={{height : '300px'}}>
-              <form noValidate >
-              <Table className={classes.table} aria-label="simple table">
-                <TableBody>
-                  <TableRow key={'query'}>
-                    <TableCell align="center">name</TableCell>
-                    <TableCell align="center">
-                    <TextField
-                    name="name"
-                    label="name"
-                    autoComplete="name"
-                    value={modelqueryData.name}
-                    onChange={createHandler} />
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-              </form>
-            </TableContainer>
-            : ""}
-            {(modelqueryQuery === 'update') ? 
-            <TableContainer component={Paper} style={{height : '320px'}}>
-              <form noValidate >
-              <Table className={classes.table} aria-label="simple table">
-                <TableBody>
-                  <TableRow key={'query'}>
-                    <TableCell align="center">id</TableCell>
-                    <TableCell align="center">
-                      <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label">id</InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={indexID}
-                          onChange={ChangeID}
-                        >
-                        {rows.array.map((row) => (
-                          <MenuItem value={row.id}>{row.id}</MenuItem>
-                        ))
-                        }
-                        </Select>
-                      </FormControl>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow key={'query2'}>
-                    <TableCell align="center">name</TableCell>
-                    <TableCell align="center">
-                    <TextField
-                    name="name"
-                    label={updateLabel.name}
-                    autoComplete="name"
-                    value={modelqueryData.name}
-                    onChange={createHandler} />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow key={'query3'}>
-                    <TableCell align="center">age</TableCell>
-                    <TableCell align="center">
-                    <TextField
-                    name="age"
-                    label={updateLabel.age}
-                    autoComplete="age"
-                    value={modelqueryData.age}
-                    onChange={createHandler} />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow key={'query4'}>
-                    <TableCell align="center">address</TableCell>
-                    <TableCell align="center">
-                    <TextField
-                    name="address"
-                    label={updateLabel.address}
-                    autoComplete="address"
-                    value={modelqueryData.address}
-                    onChange={createHandler} />
-                    </TableCell>
-                  </TableRow>
-                  
-                </TableBody>
-              </Table>
-              </form>
-            </TableContainer>
-            : "" }  
-            {(modelqueryQuery === 'delete') ?
-            <TableContainer component={Paper} style={{height : '320px'}}>
-              <form noValidate >
-              <Table className={classes.table} aria-label="simple table">
-                <TableBody>
-                  <TableRow key={'query'}>
-                    <TableCell align="center">id</TableCell>
-                    <TableCell align="center">
-                      <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label">id</InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={indexID}
-                          onChange={ChangeID}
-                        >
-                        {rows.array.map((row) => (
-                          <MenuItem value={row.id}>{row.id}</MenuItem>
-                        ))
-                        }
-                        </Select>
-                      </FormControl>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow key={'query2'}>
-                    <TableCell align="center">name</TableCell>
-                    <TableCell align="center">
-                    <TextField
-                    value={updateLabel.name}
-                    InputProps={{
-                      readOnly: true,
-                    }} />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow key={'query3'}>
-                    <TableCell align="center">age</TableCell>
-                    <TableCell align="center">
-                    <TextField
-                    value={updateLabel.age}
-                    InputProps={{
-                      readOnly: true,
-                    }} />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow key={'query4'}>
-                    <TableCell align="center">address</TableCell>
-                    <TableCell align="center">
-                    <TextField
-                    value={updateLabel.address}
-                    InputProps={{
-                      readOnly: true,
-                    }} />
-                    </TableCell>
-                  </TableRow>
-                  
-                </TableBody>
-              </Table>
-              </form>
-            </TableContainer>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <Paper className={classes.paper}>
+            <Grid container  spacing={2}>
+              <Grid className={classes.grid} container  spacing={2}>
+                <Grid item xs={4} lg={4}>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-label">Query</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={modelqueryQuery}
+                      onChange={ChangeQuery}
+                    >
+                      <MenuItem value={'create'}>create</MenuItem>
+                      <MenuItem value={'find'}>find</MenuItem>
+                      <MenuItem value={'update'}>update</MenuItem>
+                      <MenuItem value={'delete'}>delete</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container className={classes.grid}  spacing={2}>
+              {(modelqueryQuery === 'create' ) ?
+                <TableContainer component={Paper} style={{height : '280px'}}>
+                  <form noValidate >
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableBody>
+                      <TableRow key={'query'}>
+                        <TableCell align="center">name</TableCell>
+                        <TableCell align="center">
+                        <TextField
+                        name="name"
+                        label="name"
+                        autoComplete="name"
+                        value={modelqueryData.name}
+                        onChange={createHandler} />
+                        </TableCell>
+                      </TableRow>
+                      <TableRow key={'query2'}>
+                        <TableCell align="center">age</TableCell>
+                        <TableCell align="center">
+                        <TextField
+                        name="age"
+                        label="age"
+                        autoComplete="age"
+                        value={modelqueryData.age}
+                        onChange={createHandler} />
+                        </TableCell>
+                      </TableRow>
+                      <TableRow key={'query3'}>
+                        <TableCell align="center">address</TableCell>
+                        <TableCell align="center">
+                        <TextField
+                        name="address"
+                        label="address"
+                        autoComplete="address"
+                        value={modelqueryData.address}
+                        onChange={createHandler} />
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                  </form>
+                </TableContainer>
+              : ""}
+              {(modelqueryQuery === 'find') ? 
+              <TableContainer component={Paper} style={{height : '280px'}}>
+                  <form noValidate >
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableBody>
+                      <TableRow key={'query'}>
+                        <TableCell align="center">name</TableCell>
+                        <TableCell align="center">
+                        <TextField
+                        name="name"
+                        label="name"
+                        autoComplete="name"
+                        value={modelqueryData.name}
+                        onChange={createHandler} />
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                  </form>
+                </TableContainer>
+                : ""}
+                {(modelqueryQuery === 'update') ? 
+                <TableContainer component={Paper} style={{height : '280px'}}>
+                  <form noValidate >
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableBody>
+                      <TableRow key={'query'}>
+                        <TableCell align="center">id</TableCell>
+                        <TableCell align="center">
+                          <FormControl className={classes.formControl}>
+                            <InputLabel id="demo-simple-select-label">id</InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={indexID}
+                              onChange={ChangeID}
+                            >
+                            {rows.array.map((row) => (
+                              <MenuItem value={row.id}>{row.id}</MenuItem>
+                            ))
+                            }
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow key={'query2'}>
+                        <TableCell align="center">name</TableCell>
+                        <TableCell align="center">
+                        <TextField
+                        name="name"
+                        label={updateLabel.name}
+                        autoComplete="name"
+                        value={modelqueryData.name}
+                        onChange={createHandler} />
+                        </TableCell>
+                      </TableRow>
+                      <TableRow key={'query3'}>
+                        <TableCell align="center">age</TableCell>
+                        <TableCell align="center">
+                        <TextField
+                        name="age"
+                        label={updateLabel.age}
+                        autoComplete="age"
+                        value={modelqueryData.age}
+                        onChange={createHandler} />
+                        </TableCell>
+                      </TableRow>
+                      <TableRow key={'query4'}>
+                        <TableCell align="center">address</TableCell>
+                        <TableCell align="center">
+                        <TextField
+                        name="address"
+                        label={updateLabel.address}
+                        autoComplete="address"
+                        value={modelqueryData.address}
+                        onChange={createHandler} />
+                        </TableCell>
+                      </TableRow>
+                      
+                    </TableBody>
+                  </Table>
+                  </form>
+                </TableContainer>
+                : "" }  
+                {(modelqueryQuery === 'delete') ?
+                <TableContainer component={Paper} style={{height : '280px'}}>
+                  <form noValidate >
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableBody>
+                      <TableRow key={'query'}>
+                        <TableCell align="center">id</TableCell>
+                        <TableCell align="center">
+                          <FormControl className={classes.formControl}>
+                            <InputLabel id="demo-simple-select-label">id</InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={indexID}
+                              onChange={ChangeID}
+                            >
+                            {rows.array.map((row) => (
+                              <MenuItem value={row.id}>{row.id}</MenuItem>
+                            ))
+                            }
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow key={'query2'}>
+                        <TableCell align="center">name</TableCell>
+                        <TableCell align="center">
+                        <TextField
+                        value={updateLabel.name}
+                        InputProps={{
+                          readOnly: true,
+                        }} />
+                        </TableCell>
+                      </TableRow>
+                      <TableRow key={'query3'}>
+                        <TableCell align="center">age</TableCell>
+                        <TableCell align="center">
+                        <TextField
+                        value={updateLabel.age}
+                        InputProps={{
+                          readOnly: true,
+                        }} />
+                        </TableCell>
+                      </TableRow>
+                      <TableRow key={'query4'}>
+                        <TableCell align="center">address</TableCell>
+                        <TableCell align="center">
+                        <TextField
+                        value={updateLabel.address}
+                        InputProps={{
+                          readOnly: true,
+                        }} />
+                        </TableCell>
+                      </TableRow>
+                      
+                    </TableBody>
+                  </Table>
+                  </form>
+                </TableContainer>
 
-             : "" }
-            <Button variant="contained" color="primary" onClick={sendQuery}>
-            query 전송
-            </Button>
-        </Paper>
-        <Paper style={{margin : '50px', padding : '20px'}}>
-        쿼리 결과값 : {queryResult}
-        </Paper>
+                : "" }
+                </Grid>
+                <Grid container className={classes.grid}  >
+                  <Grid item xs={4} lg={4}>
+                  </Grid>
+                  <Grid item xs={4} lg={4}>
+                  </Grid>
+                  <Grid item xs={4} lg={4}>
+                    <Button variant="contained" color="primary" onClick={sendQuery} >실행
+                    </Button>
+                  </Grid>
+                </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} lg={4} >
+          <Paper className={classes.paper}>
+            <Typography>쿼리 결과값 : </Typography>
+            {queryResult}
+          </Paper>
+        </Grid>
+    </Grid>  
     </div>
   );
 }

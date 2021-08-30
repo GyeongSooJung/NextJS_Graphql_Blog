@@ -29,6 +29,19 @@ const useStyles = makeStyles({
   table: {
     Width: 300,
     Height: 300
+  },
+  paper : {
+    height : 450,
+    margin : '20px',
+    padding : '20px'
+  },
+  gridcontainer : {
+    margin : '5px',
+    padding : '5px'
+  },
+  griditem : {
+    margin : '5px',
+    padding : '5px'
   }
 });
 
@@ -66,62 +79,74 @@ export default function Graphqlpage(props) {
   }
 
     return (
-        <Paper style={{margin : '50px', padding : '20px'}}>
-        <Grid container className={classes.root} spacing={2}>
-          <Grid item xs={7}>
-          <List >
-              {chatList.array.map((chat) => (
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                    <Avatar />
-                </ListItemAvatar>
-                <ListItemText
-                primary={<Typography
-                      component="span"
-                      variant="body2"
-                      color="textPrimary"
-                    >
-                      {chat.name}
-                    </Typography>
-                    }
-                secondary={chat.chat}
-                
-                />
-              </ListItem>  
-              ))}
-          </List>
-          </Grid>
-          <Grid item xs={5}>
-            <Grid>
-              <Typography> 이름 </Typography>
-            </Grid>
-            <Grid>
-              <TextField
-                name='name'
-                label='name'
-                value={Chat.name}
-                onChange={chatHandler} />
-            </Grid>
-
-            <Grid>
-              <Typography> 내용 </Typography>
-            </Grid>
-            <Grid>
-              <TextareaAutosize
-                name="chat"
-                label="chat"
-                aria-label="minimum height"
-                minRows={3}
-                placeholder="Contents"
-                value={Chat.chat}
-                onChange={chatHandler} />
-            </Grid>
-            <Grid>
-              <Button onClick={sendChat} variant="contained" color="primary">send</Button>
-
-            </Grid>
-          </Grid>
+      <div>
+      <Grid container  spacing={2}>
+        <Grid item xs={6} lg={6}>
+          <Paper className={classes.paper}>
+            <List >
+                {chatList.array.map((chat) => (
+                <ListItem alignItems="flex-start">
+                  <ListItemAvatar>
+                      <Avatar />
+                  </ListItemAvatar>
+                  <ListItemText
+                  primary={<Typography
+                        component="span"
+                        variant="body2"
+                        color="textPrimary"
+                      >
+                        {chat.name}
+                      </Typography>
+                      }
+                  secondary={chat.chat}
+                  
+                  />
+                </ListItem>  
+                ))}
+            </List>
+          </Paper>
         </Grid>
-        </Paper>
+        <Grid item xs={6} lg={6}>
+          <Paper className={classes.paper}>
+            <Grid className={classes.griditem} container justifyContent='center' alignItems='center' spacing={2}>
+              <Grid item>     
+                <Typography> 이름 </Typography>
+              </Grid>
+            </Grid>
+            <Grid className={classes.griditem} container justifyContent='center' alignItems='center' spacing={2}>
+              <Grid item>
+                <TextField
+                  name='name'
+                  label='name'
+                  value={Chat.name}
+                  onChange={chatHandler} />
+              </Grid>
+            </Grid>
+            <Grid className={classes.griditem} container justifyContent='center' alignItems='center' spacing={2}>
+              <Grid item>
+                <Typography> 내용 </Typography>
+              </Grid>
+              <Grid item>
+            </Grid>
+            <Grid className={classes.griditem} container justifyContent='center' alignItems='center' spacing={2}>
+                <TextareaAutosize
+                  name="chat"
+                  label="chat"
+                  aria-label="minimum height"
+                  minRows={3}
+                  placeholder="Contents"
+                  value={Chat.chat}
+                  onChange={chatHandler} />
+              </Grid>
+            </Grid>
+            <Grid className={classes.griditem} container justifyContent='center' alignItems='center' spacing={2}>
+              <Grid item>
+                <Button onClick={sendChat} variant="contained" color="primary">send</Button>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+      </Grid>
+      </div>
     )
 }

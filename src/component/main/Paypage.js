@@ -11,9 +11,20 @@ import {
   FormLabel
   } from '@material-ui/core';
 
+import Image from 'next/image';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  Griditem: {
+    margin : '0 50px',
+    padding : '10px'
+  },
+}));
+
 
 export default function Paypage(props) {
-
+    const classes = useStyles();
     const [amount, setAmount] = useState(0);
     const [name, setName] = useState('')
 
@@ -70,50 +81,73 @@ export default function Paypage(props) {
     }
 
     function PayHandler(e) {
-        if(e.target.value === '연필') {
-            setName('연필');
-            setAmount(1000);
+        if(e.target.value === '티셔츠') {
+            setName('티셔츠');
+            setAmount(10000);
         }
-        else if(e.target.value === '지우개') {
-            setName('지우개');
-            setAmount(5000);
+        else if(e.target.value === '셔츠') {
+            setName('셔츠');
+            setAmount(25000);
         }
         else {
-            setName('볼펜');
-            setAmount(10000);
+            setName('바지');
+            setAmount(30000);
         }
     }
 
     return (
         <Paper style={{margin : '50px', padding : '20px'}}>
-            <div>
-                <FormControl component="fieldset">
-                    <FormLabel component="legend">상품</FormLabel>
-                    <RadioGroup row aria-label="position" name="position" defaultValue="a" onChange={PayHandler}>
-                        <FormControlLabel
-                        value="연필"
-                        control={<Radio color="primary" />}
-                        label="연필 1000원"
-                        labelPlacement="top"
-                        />
-                        <FormControlLabel
-                        value="지우개"
-                        control={<Radio color="primary" />}
-                        label="지우개 5000원"
-                        labelPlacement="top"
-                        />
-                        <FormControlLabel
-                        value="볼펜"
-                        control={<Radio color="primary" />}
-                        label="볼펜 10000원"
-                        labelPlacement="top"
-                        />
-                    </RadioGroup>
-                </FormControl>
-            </div>
-            <div>
-                <Button onClick={onClickPayment} variant="contained" color="primary">결제하기</Button>
-            </div>
+            <Grid container>
+                <Grid container justifyContent='center' spacing={4}>
+                    <FormControl component="fieldset">
+                        <FormLabel component="legend" align='center'>상품</FormLabel>
+                        <RadioGroup row aria-label="position" name="position" defaultValue="a" onChange={PayHandler}>
+                        <Grid className={classes.Griditem} item>
+                            <Image
+                            src='/images/티.jpg'
+                            width='100px'
+                            height='100px'
+                            />
+                            <FormControlLabel
+                            value="티셔츠"
+                            control={<Radio color="primary" />}
+                            label={"티셔츠 10000원"}
+                            labelPlacement="top"
+                            />
+                        </Grid>
+                        <Grid className={classes.Griditem} item>
+                            <Image
+                            src='/images/셔츠.jpg'
+                            width='100px'
+                            height='100px'
+                            />
+                            <FormControlLabel
+                            value="셔츠"
+                            control={<Radio color="primary" />}
+                            label="셔츠 25000원"
+                            labelPlacement="top"
+                            />
+                        </Grid>
+                        <Grid className={classes.Griditem} item>
+                            <Image
+                            src='/images/바지.jpg'
+                            width='100px'
+                            height='100px'
+                            />
+                            <FormControlLabel
+                            value="바지"
+                            control={<Radio color="primary" />}
+                            label="바지 30000원"
+                            labelPlacement="top"
+                            />
+                        </Grid>
+                        </RadioGroup>
+                    </FormControl>
+                </Grid>
+                <Grid container justifyContent='center'>
+                    <Button onClick={onClickPayment} variant="contained" color="primary">결제하기</Button>
+                </Grid>
+            </Grid>
         </Paper>
     )
 }

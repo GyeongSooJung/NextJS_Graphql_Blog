@@ -66,11 +66,8 @@ export default function Header(props) {
           className={classes.toolbarTitle}
           onClick={()=>{setSection("TP's Blog")}}
         >
-          {title}
+          TP's Blog
         </Typography>
-        <IconButton>
-          <SearchIcon />
-        </IconButton>
         <Button
          variant="outlined"
          size="small"

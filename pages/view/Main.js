@@ -18,7 +18,7 @@ import Chattingpage from '../../src/component/main/Chattingpage';
 import Filepage from '../../src/component/main/Filepage';
 import Tablepage from '../../src/component/main/Tablepage';
 import Addresspage from '../../src/component/main/Addresspage';
-import Alarmpage from '../../src/component/main/Alarmpage';
+// import Alarmpage from '../../src/component/main/Alarmpage';
 import Paypage from '../../src/component/main/Paypage';
 
 //Axios
@@ -70,6 +70,7 @@ export default function Blog({SSRdata}) {
   const [section, setSection] = useState("Blog");
   const [Graphqldata,setGraphqlData] = useState(SSRdata.modelQuery); // graphql 데이터
   const [TableData,setTableData] = useState(SSRdata.schools);
+
 
   function pagefunction(section) {
     switch(section) {
