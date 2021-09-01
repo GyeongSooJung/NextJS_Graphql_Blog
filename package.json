@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "netlify-deploy": "next build && next export"
   },
   "dependencies": {
     "@apollo/client": "^3.4.4",
